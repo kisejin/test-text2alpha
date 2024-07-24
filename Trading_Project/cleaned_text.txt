@@ -1,0 +1,1009 @@
+Name: AccelerationDecelerationOscillator
+Alias: AccDeOsc
+Formula: AcdDecOsc = AwesomeOscillator - SMA(AwesomeOscillator, period) 
+Returns: accde
+Params: period (5), movav (SMA) 
+
+Name: Accum
+Alias: CumSum, CumulativeSum
+Formula: accum += data
+Returns: accum
+Params: seed (0.0)
+
+Name: AdaptiveMovingAverage
+Alias: KAMA, MovingAverageAdaptive
+Formula:
+    direction = close - close_period
+    volatility = sumN(abs(close - close_n), period)
+    effiency_ratio = abs(direction / volatility)
+    fast = 2 / (fast_period + 1)
+    slow = 2 / (slow_period + 1)
+    smfactor = squared(efficienty_ratio * (fast - slow) + slow)
+    smfactor1 = 1.0 - smfactor
+    The initial seed value is a SimpleMovingAverage
+Returns: kama
+Params: period (30), fast (2), slow (30)
+
+Name: AdaptiveMovingAverageEnvelope
+Alias: KAMAEnvelope, MovingAverageAdaptiveEnvelope
+Formula:
+    kama (from AdaptiveMovingAverage)
+    top = kama * (1 + perc)
+    bot = kama * (1 - perc)
+Returns: kama, top, bot
+Params: period (30), fast (2), slow (30), perc (2.5)
+
+Name: AdaptiveMovingAverageOscillator
+Alias: AdaptiveMovingAverageOsc, KAMAOscillator, KAMAOsc, MovingAverageAdaptiveOscillator, MovingAverageAdaptiveOsc
+Returns: kama
+Params: period (30), fast (2), slow (30)
+
+Name: AllN
+Alias: AllN
+Formula: alln = all(data, period)
+Returns: alln
+Params: period (1)
+
+Name: AnyN
+Alias: AnyN
+Formula: anyn = any(data, period)
+Returns: anyn
+Params: period (1)
+
+Name: ApplyN
+Alias: ApplyN
+Formula: line = func(data, period)
+Returns: apply
+Params: period (1), func (None)
+
+Name: AroonDown
+Alias: AroonDown
+Formula: down = 100 * (period - distance to lowest low) / period
+Returns: aroondown
+Params: period (14), upperband (70), lowerband (30)
+
+Name: AroonOscillator
+Alias: AroonOsc
+Formula: aroonosc = aroonup - aroondown
+Returns: aroonosc
+Params: period (14), upperband (70), lowerband (30)
+
+Name: AroonUp
+Alias: AroonUp
+Formula: up = 100 * (period - distance to highest high) / period
+Returns: aroonup
+Params: period (14), upperband (70), lowerband (30)
+
+Name: AroonUpDown
+Alias:AroonIndicator
+Formula:
+    up = 100 * (period - distance to highest high) / period
+    down = 100 * (period - distance to lowest low) / period
+Returns: aroonup, aroondown
+Params: period (14), upperband (70), lowerband (30)
+
+Name: AroonUpDownOscillator
+Alias: AroonUpDownOsc
+Formula: None
+Returns: aroonup, aroondown, aroonosc
+Params: period (14), upperband (70), lowerband (30)
+
+Name: Average
+Alias ArithmeticMean, Mean
+Formula: av = data(period) / period
+Returns: av
+Params: period (1)
+
+Name: AverageDirectionalMovementIndex
+Alias: ADX
+    * Use PlusDirectionalIndicator (PlusDI) to get +DI
+    * Use MinusDirectionalIndicator (MinusDI) to get -DI
+    * Use Directional Indicator (DI) to get +DI, -DI
+    * Use AverageDirectionalIndexRating (ADXR) to get ADX, ADXR
+    * Use DirectionalMovementIndex (DMI) to get ADX, +DI, -DI
+    * Use DirectionalMovement (DM) to get ADX, ADXR, +DI, -DI
+The moving average used is the one originally defined by Wilder, the SmoothedMovingAverage
+Formula:
+    upmove = high - high(-1)
+    downmove = low(-1) - low
+    +dm = upmove if upmove > downmove and upmove > 0 else 0
+    -dm = downmove if downmove > upmove and downmove > 0 else 0
+    +di = 100 * MovingAverage(+dm, period) / atr(period)
+    -di = 100 * MovingAverage(-dm, period) / atr(period)
+    dx = 100 * abs(+di - -di) / (+di + -di)
+    adx = MovingAverage(dx, period)
+Returns: adx
+Params: period (14), movav (SmoothedMovingAverage)
+
+Name: AverageDirectionalMovementIndexRating
+Alias: ADXR
+    * Use PlusDirectionalIndicator (PlusDI) to get +DI
+    * Use MinusDirectionalIndicator (MinusDI) to get -DI
+    * Use Directional Indicator (DI) to get +DI, -DI
+    * Use AverageDirectionalIndex (ADX) to get ADX
+    * Use DirectionalMovementIndex (DMI) to get ADX, +DI, -DI
+    * Use DirectionalMovement (DM) to get ADX, ADXR, +DI, -DI
+The moving average used is the one originally defined by Wilder, the SmoothedMovingAverage
+Formula:
+    upmove = high - high(-1)
+    downmove = low(-1) - low
+    +dm = upmove if upmove > downmove and upmove > 0 else 0
+    -dm = downmove if downmove > upmove and downmove > 0 else 0
+    +di = 100 * MovingAverage(+dm, period) / atr(period)
+    -di = 100 * MovingAverage(-dm, period) / atr(period)
+    dx = 100 * abs(+di - -di) / (+di + -di)
+    adx = MovingAverage(dx, period)
+    adxr = (adx + adx(-period)) / 2
+Returns: adx, adxr
+Params: period (14), movav (SmoothedMovingAverage)
+
+Name: AverageTrueRange
+Alias: ATR
+The idea is to take the close into account to calculate the range if it yields a larger range than the daily range (High - Low)
+Formula: SmoothedMovingAverage(TrueRange, period)
+Returns: atr
+Params: period (14), movav (SmoothedMovingAverage)
+
+Name: AwesomeOscillator
+Alias: AwesomeOsc, AO
+Formula:
+    median price = (high + low) / 2
+    AO = SMA(median price, 5)- SMA(median price, 34)
+Returns: ao
+Params: fast (5), slow (34), movav (SMA)
+
+Name: BollingerBands
+Alias: BBands
+Formula:
+    midband = SimpleMovingAverage(close, period)
+    topband = midband + devfactor * StandardDeviation(data, period)
+    botband = midband - devfactor * StandardDeviation(data, period)
+Returns: mid, top, bot
+Params: period (20), devfactor (2.0), movav (MovingAverageSimple)
+
+Name: BollingerBandsPct
+Alias: BollingerBandsPct
+Returns: mid, top, bot, pctb
+Params: period (20), devfactor (2.0), movav (MovingAverageSimple)
+
+Name: CointN
+Alias: CointN
+Returns: score, pvalue
+Params: period (10), regression
+
+Name: CommodityChannelIndex
+Alias: CCI
+Formula:
+    tp = typical_price = (high + low + close) / 3
+    tpmean = MovingAverage(tp, period)
+    deviation = tp - tpmean
+    meandev = MeanDeviation(tp)
+    cci = deviation / (meandeviation * factor)
+Returns: cci
+Params: period (20), factor (0.015), movav (MovingAverageSimple), upperband (100.0), lowerband (-100.0)
+
+Name: CrossDown
+Alias: CrossDown
+It does need to look into the current time index (0) and the previous time index (-1) of both the 1st and 2nd data
+Formula: 
+    diff = data - data1
+    downcross = last_non_zero_diff > 0 and data0(0) < data1(0)
+Returns: cross
+
+Name: CrossOver
+Alias: CrossOver
+Formula:
+    diff = data - data1
+    upcross = last_non_zero_diff < 0 and data0(0) > data1(0)
+    downcross = last_non_zero_diff > 0 and data0(0) < data1(0)
+    crossover = upcross - downcross
+Returns: crossover
+
+Name: CrossUp
+Alias: CrossUp
+It does need to look into the current time index (0) and the previous time index (-1) of both the 1st and 2nd data
+Formula:
+    diff = data - data1
+    upcross = last_non_zero_diff < 0 and data0(0) > data1(0)
+Returns: cross
+
+Name: DV2
+Alias: DV2
+Returns: dv2
+Params: period (252), maperiod (2), _movav (SMA)
+
+Name: DemarkPivotPoint
+Alias: DemarkPivotPoint
+Formula:
+    if close < open x = high + (2 x low) + close
+    if close > open x = (2 x high) + low + close
+    if Close == open x = high + low + (2 x close)
+    p = x / 4
+    support1 = x / 2 - high
+    resistance1 = x / 2 - low
+Returns: p, s1, r1
+Params: open (False), close (False), _autoplot (True), level1 (0.382), level2 (0.618), level3 (1.0)
+
+Name: DetrendedPriceOscillator
+Alias: DPO
+Formula:
+    movav = MovingAverage(close, period)
+    dpo = close - movav(shifted period / 2 + 1)
+Returns: dpo
+Params: period (20), movav (MovingAverageSimple)
+
+Name: DicksonMovingAverage
+Alias: DMA, DicksonMA
+-NOTE*: the passed moving average must calculate alpha (and 1 - alpha) and make them available as attributes alpha and alpha1. The 2nd moving averag can be changed from Hull to anything else with the param _hma
+Formula:
+    ec = ZeroLagIndicator(period, gainlimit)
+    hma = HullMovingAverage(hperiod)
+    dma = (ec + hma) / 2
+Returns: dma
+Params: period (30), gainlimit (50), hperiod (7), _movav (EMA), _hma (HMA)
+
+Name: DicksonMovingAverageEnvelope
+Alias: DMAEnvelope, DicksonMAEnvelope
+Formula:
+    dma (from DicksonMovingAverage)
+    top = dma * (1 + perc)
+    bot = dma * (1 - perc)
+Returns: dma, top, bot
+Params: period (30), gainlimit (50), hperiod (7), _movav (EMA), _hma (HMA), perc (2.5)
+
+Name: DicksonMovingAverageOscillator
+Alias: DicksonMovingAverageOsc, DMAOscillator, DMAOsc, DicksonMAOscillator, DicksonMAOsc
+Returns: dma
+Params: period (30), gainlimit (50), hperiod (7), _movav (EMA), _hma (HMA)
+
+Name: DirectionalIndicator
+Alias: DI
+Intended to measure trend strength. This indicator shows +DI, -DI:
+    * Use PlusDirectionalIndicator (PlusDI) to get +DI
+    * Use MinusDirectionalIndicator (MinusDI) to get -DI
+    * Use AverageDirectionalIndex (ADX) to get ADX
+    * Use AverageDirectionalIndexRating (ADXR) to get ADX, ADXR
+    * Use DirectionalMovementIndex (DMI) to get ADX, +DI, -DI
+    * Use DirectionalMovement (DM) to get ADX, ADXR, +DI, -DI
+The moving average used is the one originally defined by Wilder, the SmoothedMovingAverage
+Formula:
+    upmove = high - high(-1)
+    downmove = low(-1) - low
+    +dm = upmove if upmove > downmove and upmove > 0 else 0
+    -dm = downmove if downmove > upmove and downmove > 0 else 0
+    +di = 100 * MovingAverage(+dm, period) / atr(period)
+    -di = 100 * MovingAverage(-dm, period) / atr(period)
+Returns: plusDI, minusDI
+Params: period (14), movav (SmoothedMovingAverage)
+
+Name: DirectionalMovement
+Alias: DM
+    * Use PlusDirectionalIndicator (PlusDI) to get +DI
+    * Use MinusDirectionalIndicator (MinusDI) to get -DI
+    * Use Directional Indicator (DI) to get +DI, -DI
+    * Use AverageDirectionalIndex (ADX) to get ADX
+    * Use AverageDirectionalIndexRating (ADXR) to get ADX, ADXR
+    * Use DirectionalMovementIndex (DMI) to get ADX, +DI, -DI
+The moving average used is the one originally defined by Wilder, the SmoothedMovingAverage
+Formula:
+    upmove = high - high(-1)
+    downmove = low(-1) - low
+    +dm = upmove if upmove > downmove and upmove > 0 else 0
+    -dm = downmove if downmove > upmove and downmove > 0 else 0
+    +di = 100 * MovingAverage(+dm, period) / atr(period)
+    -di = 100 * MovingAverage(-dm, period) / atr(period)
+    dx = 100 * abs(+di - -di) / (+di + -di)
+    adx = MovingAverage(dx, period)
+Returns: adx, adxr, plusDI, minusDI
+Params: period (14), movav (SmoothedMovingAverage)
+
+Name: DirectionalMovementIndex
+Alias: DMI
+Intended to measure trend strength. This indicator shows the ADX, +DI, -DI:
+    * Use PlusDirectionalIndicator (PlusDI) to get +DI
+    * Use MinusDirectionalIndicator (MinusDI) to get -DI
+    * Use Directional Indicator (DI) to get +DI, -DI
+    * Use AverageDirectionalIndex (ADX) to get ADX
+    * Use AverageDirectionalIndexRating (ADXRating) to get ADX, ADXR
+    * Use DirectionalMovement (DM) to get ADX, ADXR, +DI, -DI
+The moving average used is the one originally defined by Wilder, the SmoothedMovingAverage
+Formula:
+    upmove = high - high(-1)
+    downmove = low(-1) - low
+    +dm = upmove if upmove > downmove and upmove > 0 else 0
+    -dm = downmove if downmove > upmove and downmove > 0 else 0
+    +di = 100 * MovingAverage(+dm, period) / atr(period)
+    -di = 100 * MovingAverage(-dm, period) / atr(period)
+    dx = 100 * abs(+di - -di) / (+di + -di)
+    adx = MovingAverage(dx, period)
+Returns: adx, plusDI, minusDI
+Params: period (14), movav (SmoothedMovingAverage)
+
+Name: DoubleExponentialMovingAverage
+Alias: DEMA, MovingAverageDoubleExponential
+Formula: dema = (2.0 - ema(data, period) - ema(ema(data, period), period))
+Returns: dema
+Params: period (30), movav (EMA)
+
+Name: DoubleExponentialMovingAverageEnvelope
+Alias: DEMAEnvelope, MovingAverageDoubleExponentialEnvelope
+Formula:
+    dema (from DoubleExponentialMovingAverage)
+    top = dema * (1 + perc)
+    bot = dema * (1 - perc)
+Returns: dema, top, bot
+Params: period (30), perc (2.5)
+
+Name: DoubleExponentialMovingAverageOscillator
+Alias: DoubleExponentialMovingAverageOsc, DEMAOscillator, DEMAOsc, MovingAverageDoubleExponentialOscillator, MovingAverageDoubleExponentialOsc
+Returns: dema
+Params: period (30), _movav (EMA)
+
+Name: DownDay
+Alias: DownDay
+Formula: downday = max(close_prev - close, 0)
+Returns: downday
+Params: period (1)
+
+Name: DownDayBool
+Alias: DownDayBool
+Formula: downday = close_prev > close
+Returns: downday
+Params: period (1)
+
+Name: DownMove
+Alias: DownMove
+Positive if the given data has moved lower than the previous day
+Formula: downmove = data(-1) - data
+Returns: downmove
+Params: None
+
+Name: Envelope
+Alias: Envelope
+Formula:
+    src = datasource
+    top = src * (1 + perc)
+    bot = src * (1 - perc)
+Returns: src, top, bot
+Params: perc (2.5)
+
+Name: ExponentialMovingAverage
+Alias: EMA, MovingAverageExponential
+Formula: movav = prev * (1.0 - smoothfactor) + newdata * smoothfactor
+Returns: ema
+Params: period (30)
+
+Name: ExponentialMovingAverageEnvelope
+Alias: EMAEnvelope, MovingAverageExponentialEnvelope
+Formula:
+    ema (from ExponentialMovingAverage)
+    top = ema * (1 + perc)
+    bot = ema * (1 - perc)
+Returns: ema, top, bot
+Params: period (30), perc (2.5)
+
+Name: ExponentialMovingAverageOscillator
+Alias: ExponentialMovingAverageOsc, EMAOscillator, EMAOsc, MovingAverageExponentialOscillator, MovingAverageExponentialOsc
+Returns: ema
+Params: period (30)
+
+Name: ExponentialSmoothing
+Alias: ExpSmoothing
+Formula: av = prev * (1 - alpha) + data * alpha
+Returns: av
+Params: period (1), alpha (None)
+
+Name: ExponentialSmoothingDynamic
+Alias: ExpSmoothingDynamic
+Formula: av = prev * (1 - alpha) + data * alpha
+Returns: av
+Params: period (1), alpha (None)
+
+Name: FibonacciPivotPoint
+Alias: FibonacciPivotPoint
+Formula:
+    pivot = (h + l + c) / 3 # variants duplicate close or add open
+    support1 = p - level1 * (high - low) # level1 0.382
+    support2 = p - level2 * (high - low) # level2 0.618
+    support3 = p - level3 * (high - low) # level3 1.000
+    resistance1 = p + level1 * (high - low) # level1 0.382
+    resistance2 = p + level2 * (high - low) # level2 0.618
+    resistance3 = p + level3 * (high - low) # level3 1.000
+Returns: p, s1, s2, s3, r1, r2, r3
+Params: open (False), close (False), _autoplot (True), level1 (0.382), level2 (0.618), level3 (1.0)
+
+Name: FindFirstIndex
+Alias: FindFirstIndex
+Formula: index = first for which data[index] == _evalfunc(data)
+Returns: index
+Params: period (1), _evalfunc (None)
+
+Name: FindFirstIndexHighest
+Alias: FindFirstIndexHighest
+Formula: index = index of first data which is the highest
+Returns: index
+Params: period (1), _evalfunc (None)
+
+Name: FindFirstIndexLowest
+Alias: FindFirstIndexLowest
+Formula: index = index of first data which is the lowest
+Returns: index
+Params: period (1), _evalfunc (None)
+
+Name: FindLastIndex
+Alias: FindLastIndex
+Formula: index = last for which data[index] == _evalfunc(data)
+Returns: index
+Params: period (1), _evalfunc (None)
+
+Name: FindLastIndexHighest
+Alias: FindLastIndexHighest
+Formula: index = index of last data which is the highest
+Returns: index
+Params: period (1), _evalfunc (None)
+
+Name: FindLastIndexLowest
+Alias: FindLastIndexLowest
+Formula: index = index of last data which is the lowest
+Returns: index
+Params: period (1), _evalfunc (None)
+
+Name: Fractal
+Alias: Fractal
+Formula: None
+Returns: fractal_bearish, fractal_bullish
+Params: period (5), bardist (0.015), shift_to_potential_fractal (2)
+
+Name: HeikinAshi
+Alias: HeikinAshi
+Formula:
+    ha_open = (ha_open(-1) + ha_close(-1)) / 2 
+    ha_high = max(hi, ha_open, ha_close) 
+    ha_low = min(lo, ha_open, ha_close) 
+    ha_close = (open + high + low + close) / 4 
+Returns: ha_open, ha_high, ha_low, ha_close
+Params: None
+
+Name: Highest
+Alias: MaxN
+Formula: highest = max(data, period)
+Returns: highest
+Params: period (1)
+
+Name: HullMovingAverage
+Alias: HMA, HullMA
+In the default case of 30 the final minimum period before the moving average produces a non-NAN value is 34
+Formula: hma = wma(2 * wma(data, period // 2) - wma(data, period), sqrt(period))
+Returns: hma
+Params: period (30), _movav (WMA)
+
+Name: HullMovingAverageEnvelope
+Alias: HMAEnvelope, HullMAEnvelope
+Formula:
+    hma (from HullMovingAverage)
+    top = hma * (1 + perc)
+    bot = hma * (1 - perc)
+Returns: hma, top, bot
+Params: period (30), _movav (WMA), perc (2.5)
+
+Name: HullMovingAverageOscillator
+Alias: HullMovingAverageOsc, HMAOscillator, HMAOsc, HullMAOscillator, HullMAOsc
+Returns: hma
+Params: period (30), _movav (WMA)
+
+Name: HurstExponent
+Alias: Hurst 
+The lag_start and lag_end values will default to be 2 and self.p.period / 2 unless the parameters are specified.
+Experimentation by users has also shown that values of around 10 and 500 produce good results
+The original values (40, 2, self.p.period / 2) are kept for backwards compatibility
+Returns: hurst
+Params: period (40), lag_start (None), lag_end (None)
+
+Name: Ichimoku
+Alias: Ichimoku
+Formula:
+    tenkan_sen = (Highest(High, tenkan) + Lowest(Low, tenkan)) / 2.0
+    kijun_sen = (Highest(High, kijun) + Lowest(Low, kijun)) / 2.0
+    The next 2 are pushed 26 bars into the future
+    senkou_span_a = (tenkan_sen + kijun_sen) / 2.0
+    senkou_span_b = ((Highest(High, senkou) + Lowest(Low, senkou))) / 2.0
+    This is pushed 26 bars into the past
+    chikou = close
+Returns: tenkan_sen, kijun_sen, senkou_span_a, senkou_span_b, chikou_span
+Params: tenkan (9), kijun (26), senkou (52), senkou_lead (26), chikou (26)
+
+Name: KnowSureThing
+Alias: KST
+Formula:
+    rcma1 = MovAv(roc100(rp1), period)
+    rcma2 = MovAv(roc100(rp2), period)
+    rcma3 = MovAv(roc100(rp3), period)
+    rcma4 = MovAv(roc100(rp4), period)
+    kst = 1.0 * rcma1 + 2.0 * rcma2 + 3.0 * rcma3 + 4.0 * rcma4
+    signal = MovAv(kst, speriod)
+Returns: kst, signal
+Params: rp1 (10), rp2 (15), rp3 (20), rp4 (30), rma1 (10), rma2 (10), rma3 (10), rma4 (10), rsignal (9), rfactors ([1.0, 2.0, 3.0, 4.0]), _rmovav (SMA), _smovav (SMA)
+
+Name: LaguerreFilter
+Alias: LAGF
+Returns: lfilter
+Params: period (1), gamma (0.5)
+
+Name: LaguerreRSI
+Alias: LRSI
+gamma is meant to have values between 0.2 and 0.8, with the best balance found theoretically at the default of 0.5
+Returns: lrsi
+Params: period (6), gamma (0.5)
+
+Name: Lowest
+Alias: MinN
+Formula: lowest = min(data, period)
+Returns: lowest
+Params: period (1)
+
+Name: Moving Average Convergence Divergence
+Alias: MACD
+Formula:
+    macd = ema(data, me1_period) - ema(data, me2_period)
+    signal = ema(macd, signal_period)
+Returns: macd, signal
+Params: me1_period (12), me2_period (26), signal_period (9), movav (ExponentialMovingAverage)
+
+Name: MACDHisto
+Alias: MACDHistogram
+Formula: histo = macd - signal
+Returns: macd, signal, histo
+Params: me1_period (12), me2_period (26), signal_period (9), movav (ExponentialMovingAverage)
+
+Name: MeanDeviation
+Alias: MeanDev
+Formula:
+    mean = MovingAverage(data, period) (or provided mean)
+    absdeviation = abs(data - mean)
+    meandev = MovingAverage(absdeviation, period)
+Returns: meandev
+Params: period (20), movav (MovingAverageSimple)
+
+Name: MinusDirectionalIndicator
+Alias: MinusDI
+    * Use PlusDirectionalIndicator (PlusDI) to get +DI
+    * Use Directional Indicator (DI) to get +DI, -DI
+    * Use AverageDirectionalIndex (ADX) to get ADX
+    * Use AverageDirectionalIndexRating (ADXR) to get ADX, ADXR
+    * Use DirectionalMovementIndex (DMI) to get ADX, +DI, -DI
+    * Use DirectionalMovement (DM) to get ADX, ADXR, +DI, -DI
+The moving average used is the one originally defined by Wilder, the SmoothedMovingAverage
+Formula:
+    upmove = high - high(-1)
+    downmove = low(-1) - low
+    -dm = downmove if downmove > upmove and downmove > 0 else 0
+    -di = 100 * MovingAverage(-dm, period) / atr(period)
+Returns: minusDI
+Params: period (14), movav (SmoothedMovingAverage)
+
+Name: Momentum
+Alias: Momentum
+Formula: momentum = data - data_period
+Returns: momentum
+Params: period (12)
+
+Name: MomentumOscillator
+Alias: MomentumOsc
+Formula: mosc = 100 * (data / data_period)
+Returns: momosc
+Params: period (12), band (100.0)
+
+Name: MovingAverageSimple
+Alias: SMA, SimpleMovingAverage
+Formula: movav = Sum(data, period) / period
+Returns: sma
+Params: period (30)
+
+Name: MovingAverageSimpleEnvelope
+Alias: SMAEnvelope, SimpleMovingAverageEnvelope
+Formula:
+    sma (from MovingAverageSimple)
+    top = sma * (1 + perc)
+    bot = sma * (1 - perc)
+Returns: sma, top, bot
+Params: period (30), perc (2.5)
+
+Name: MovingAverageSimpleOscillator
+Alias: MovingAverageSimpleOsc, SMAOscillator, SMAOsc, SimpleMovingAverageOscillator, SimpleMovingAverageOsc
+Returns: sma
+Params: period (30)
+
+Name: NonZeroDifference
+Alias: NZD
+Formula:
+    diff = data - data1
+    nzd = diff if diff else diff(-1)
+Returns: nzd
+Params: None
+
+Name: OLS_BetaN
+Alias: OLS_BetaN
+Returns: beta
+Params: period (10)
+
+Name: OLS_Slope_InterceptN
+Alias: OLS_Slope_InterceptN
+Returns: slope, intercept
+Params: period (10), prepend_constant (True)
+
+Name: OLS_TransformationN
+Alias: OLS_TransformationN
+Returns: spread, spread_mean, spread_std, zscore
+Params: period (10)
+
+Name: ParabolicSAR
+Alias: PSAR
+Returns: psar
+Params: period (2), af (0.02), afmax (0.2)
+
+Name: PercentChange
+Alias: PctChange
+Returns: pctchange
+Params: period (30)
+
+Name: PercentagePriceOscillator
+Alias: PPO, PercPriceOsc
+Formula: po = 100 * (ema(short) - ema(long)) / ema(long)
+Returns: ppo, signal, histo
+Params: period1 (12), period2 (26), _movav (ExponentialMovingAverage), period_signal (9)
+
+Name: PercentagePriceOscillatorShort
+Alias: PPOShort, PercPriceOscShort
+Formula: po = 100 * (ema(short) - ema(long)) / ema(short)
+Returns: ppo, signal, histo
+Params: period1 (12), period2 (26), _movav (ExponentialMovingAverage), period_signal (9)
+
+Name: PivotPoint
+Alias: PivotPoint
+Formula:
+    pivot = (h + l + c) / 3 # variants duplicate close or add open
+    support1 = 2.0 * pivot - high
+    support2 = pivot - (high - low)
+    resistance1 = 2.0 * pivot - low
+    resistance2 = pivot + (high - low)
+Returns: p, s1, s2, r1, r2
+Params: open (False), close (False), _autoplot (True)
+
+Name: PlusDirectionalIndicator
+Alias: PlusDI
+    * Use MinusDirectionalIndicator (MinusDI) to get -DI
+    * Use Directional Indicator (DI) to get +DI, -DI
+    * Use AverageDirectionalIndex (ADX) to get ADX
+    * Use AverageDirectionalIndexRating (ADXR) to get ADX, ADXR
+    * Use DirectionalMovementIndex (DMI) to get ADX, +DI, -DI
+    * Use DirectionalMovement (DM) to get ADX, ADXR, +DI, -DI
+The moving average used is the one originally defined by Wilder, the SmoothedMovingAverage
+Formula:
+    upmove = high - high(-1)
+    downmove = low(-1) - low
+    +dm = upmove if upmove > downmove and upmove > 0 else 0
+    +di = 100 * MovingAverage(+dm, period) / atr(period)
+Returns: plusDI
+Params: period (14), movav (SmoothedMovingAverage)
+
+Name: PrettyGoodOscillator
+Alias: PGO, PrettyGoodOsc
+Formula: pgo = (data.close - sma(data, period)) / atr(data, period)
+Returns: pgo
+Params: period (14), movav (MovingAverageSimple)
+
+Name: PriceOscillator
+Alias: PriceOsc, AbsolutePriceOscillator, APO, AbsPriceOsc
+Formula: po = ema(short) - ema(long)
+Returns: po
+Params: period1 (12), period2 (26), _movav (ExponentialMovingAverage)
+
+Name: RSI_EMA
+Alias: RSI_EMA
+Returns: rsi
+Params: period (14), movav (ExponentialMovingAverage), upperband (70.0), lowerband (30.0), safediv (False), safehigh (100.0), safelow (50.0), lookback (1)
+
+Name: RSI_SMA
+Alias: RSI_Cutler
+Returns: rsi
+Params: period (14), movav (MovingAverageSimple), upperband (70.0), lowerband (30.0), safediv (False), safehigh (100.0), safelow (50.0), lookback (1)
+
+Name: RSI_Safe
+Alias: RSI_Safe
+Returns: rsi
+Params: period (14), movav (SmoothedMovingAverage), upperband (70.0), lowerband (30.0), safediv (True), safehigh (100.0), safelow (50.0), lookback (1)
+
+Name: RateOfChange
+Alias: ROC
+Formula: roc = (data - data_period) / data_period
+Returns: roc
+Params: period (12)
+
+Name: RateOfChange100
+Alias: ROC100
+Formula:
+roc = 100 * (data - data_period) / data_period
+Returns: roc100
+Params: period (12)
+
+Name: ReduceN
+Alias: ReduceN
+Formula: reduced = reduce(function(data, period), initializer=initializer)
+Returns: reduced
+Params: period (1)
+
+Name: RelativeMomentumIndex
+Alias: RMI
+While your typical RSI counts up and down days from close to close, the Relative Momentum Index counts up and down days from the close relative to a close x number of days ago. The result is an RSI that is a bit smoother. Use in the same way you would any other RSI . There are overbought and oversold zones, and can also be used for divergence and trend analysis.
+Returns: rsi
+Params: period (14), movav (SmoothedMovingAverage), upperband (70.0), lowerband (30.0), safediv (False), safehigh (100.0), safelow (50.0), lookback (5)
+
+Name: RelativeStrengthIndex
+Alias: RSI, RSI_SMMA, RSI_Wilder
+It measures momentum by calculating the ration of higher closes and lower closes after having been smoothed by an average, normalizing the result between 0 and 100. The moving average used is the one originally defined by Wilder, the SmoothedMovingAverage. Safediv (default: False) If this parameter is True the division rs = maup / madown will be checked for the special cases in which a 0 / 0 or x / 0 division will happen safehigh (default: 100.0) will be used as RSI value for the x / 0 case. safelow (default: 50.0) will be used as RSI value for the 0 / 0 case
+Formula:
+    up = upday(data)
+    down = downday(data)
+    maup = movingaverage(up, period)
+    madown = movingaverage(down, period)
+    rs = maup / madown
+    rsi = 100 - 100 / (1 + rs)
+Returns: rsi
+Params: period (14), movav (SmoothedMovingAverage), upperband (70.0), lowerband (30.0), safediv (False), safehigh (100.0), safelow (50.0), lookback (1)
+
+Name: SmoothedMovingAverage
+Alias: SMMA, WilderMA, MovingAverageSmoothed, MovingAverageWilder, ModifiedMovingAverage
+Formula: movav = prev * (1.0 - smoothfactor) + newdata * smoothfactor
+Returns: smma
+Params: period (30)
+
+Name: SmoothedMovingAverageEnvelope
+Alias: SMMAEnvelope, WilderMAEnvelope, MovingAverageSmoothedEnvelope, MovingAverageWilderEnvelope, ModifiedMovingAverageEnvelope
+Formula:
+    smma (from SmoothedMovingAverage)
+    top = smma * (1 + perc)
+    bot = smma * (1 - perc)
+Returns: smma, top, bot
+Params: period (30), perc (2.5)
+
+Name: SmoothedMovingAverageOscillator
+Alias: SmoothedMovingAverageOsc, SMMAOscillator, SMMAOsc, WilderMAOscillator, WilderMAOsc, MovingAverageSmoothedOscillator, MovingAverageSmoothedOsc, MovingAverageWilderOscillator, MovingAverageWilderOsc, ModifiedMovingAverageOscillator, ModifiedMovingAverageOsc
+Returns: smma
+Params: period (30)
+
+Name: StandardDeviation
+Alias: StdDev
+Formula:
+    meansquared = SimpleMovingAverage(pow(data, 2), period)
+    squaredmean = pow(SimpleMovingAverage(data, period), 2)
+    stddev = pow(meansquared - squaredmean, 0.5) # square root
+Returns: stddev
+Params: period (20), movav (MovingAverageSimple), safepow (False)
+
+Name: Stochastic
+Alias: StochasticSlow
+Formula:
+    k = k
+    d = d
+    d = MovingAverage(d, period_dslow)
+Returns: percK, percD
+Params: period (14), period_dfast (3), movav (MovingAverageSimple), upperband (80.0), lowerband (20.0), safediv (False), safezero (0.0), period_dslow (3)
+
+Name: StochasticFast
+Alias: StochasticFast
+Formula:
+    hh = highest(data.high, period)
+    ll = lowest(data.low, period)
+    knum = data.close - ll
+    kden = hh - ll
+    k = 100 * (knum / kden)
+    d = MovingAverage(k, period_dfast)
+Returns: percK, percD
+Params: period (14), period_dfast (3), movav (MovingAverageSimple), upperband (80.0), lowerband (20.0), safediv (False), safezero (0.0)
+
+Name: StochasticFull
+Alias: StochasticFull
+Formula:
+    k = d
+    d = MovingAverage(k, period_dslow)
+Returns: percK, percD, percDSlow
+Params: period (14), period_dfast (3), movav (MovingAverageSimple), upperband (80.0), lowerband (20.0), safediv (False), safezero (0.0), period_dslow (3)
+
+Name: SumN
+Alias: SumN
+Formula: sumn = sum(data, period)
+Returns: sumn
+Params: period (1)
+
+Name: TripleExponentialMovingAverage
+Alias: TEMA, MovingAverageTripleExponential
+It attempts to reduce the inherent lag associated to Moving Averages
+Formula:
+    ema1 = ema(data, period)
+    ema2 = ema(ema1, period)
+    ema3 = ema(ema2, period)
+    tema = 3 * ema1 - 3 * ema2 + ema3
+Returns: tema
+Params: period (30), _movav (EMA)
+
+Name: TripleExponentialMovingAverageEnvelope
+Alias: TEMAEnvelope, MovingAverageTripleExponentialEnvelope
+Formula:
+    tema (from TripleExponentialMovingAverage)
+    top = tema * (1 + perc)
+    bot = tema * (1 - perc)
+Returns: tema, top, bot
+Params: period (30), _movav (EMA), perc (2.5)
+
+Name: TripleExponentialMovingAverageOscillator
+Alias: TripleExponentialMovingAverageOsc, TEMAOscillator, TEMAOsc, MovingAverageTripleExponentialOscillator, MovingAverageTripleExponentialOsc
+Returns: tema
+Params: period (30), _movav (EMA)
+
+Name: Trix
+Alias: TRIX
+Formula:
+    ema1 = EMA(data, period)
+    ema2 = EMA(ema1, period)
+    ema3 = EMA(ema2, period)
+    trix = 100 * (ema3 - ema3(-1)) / ema3(-1)
+    The final formula can be simplified to: 100 * (ema3 / ema3(-1) - 1)
+Returns: trix
+Params: period (15), _rocperiod (1), _movav (EMA)
+
+Name: TrixSignal
+Alias: TRIXSignal
+Formula:
+    trix = Trix(data, period)
+    signal = EMA(trix, sigperiod)
+Returns: trix, signal
+Params: period (15), _rocperiod (1), _movav (EMA), sigperiod (9)
+
+Name: TrueLow
+Alias: TrueLow
+Formula: truelow = min(low, close_prev)
+Returns: truelow
+Params: None
+
+Name: TrueStrengthIndicator
+Alias: TSI
+It shows divergence if the extremes keep on growign but closing prices do not in the same manner (distance to the extremes grow)
+Formula:
+    price_change = close - close(pchange periods ago)
+    sm1_simple = EMA(price_close_change, period1)
+    sm1_double = EMA(sm1_simple, period2)
+    sm2_simple = EMA(abs(price_close_change), period1)
+    sm2_double = EMA(sm2_simple, period2)
+    tsi = 100.0 * sm1_double / sm2_double
+Returns: tsi
+Params: period1 (25), period2 (13), pchange (1), _movav (EMA)
+
+Name: UltimateOscillator
+Alias: UltimateOscillator
+Formula:
+    # Buying Pressure = Close - TrueLow 
+    BP = Close - Minimum(Low or Prior Close) 
+    # TrueRange = TrueHigh - TrueLow 
+    TR = Maximum(High or Prior Close) - Minimum(Low or Prior Close) 
+    Average7 = (7-period BP Sum) / (7-period TR Sum) 
+    Average14 = (14-period BP Sum) / (14-period TR Sum) 
+    Average28 = (28-period BP Sum) / (28-period TR Sum) 
+    UO = 100 x [(4 x Average7)+(2 x Average14)+Average28]/(4+2+1) 
+Returns: uo
+Params: p1 (7), p2 (14), p3 (28), upperband (70.0), lowerband (30.0)
+
+Name: UpDay
+Alias: UpDay
+Formula: upday = max(close - close_prev, 0)
+Returns: upday
+Params: period (1)
+
+Name: UpDayBool
+Alias: UpDayBool
+Formula: upday = close > close_prev
+Returns: upday
+Params: period (1)
+
+Name: Vortex
+Alias: Vortex
+Formula: None
+Returns: vi_plus, vi_minus
+Params: period (14)
+
+Name: WeightedAverage
+Alias: AverageWeighted
+Calculates the weighted average of the given data over a period
+The default weights (if none are provided) are linear to assigne more weight to the most recent data
+The result will be multiplied by a given “coef”
+Formula: av = coef * sum(mul(data, period), weights)
+Returns: av
+Params: period (1), coef (1.0), weights (())
+
+Name: WeightedMovingAverage
+Alias: WMA, MovingAverageWeighted
+Formula:
+    weights = range(1, period + 1)
+    coef = 2 / (period * (period + 1))
+    movav = coef * Sum(weight[i] * data[period - i] for i in range(period))
+Returns: wma
+Params: period (30)
+
+Name: WeightedMovingAverageEnvelope
+Alias: WMAEnvelope, MovingAverageWeightedEnvelope
+Formula:
+    wma (from WeightedMovingAverage)
+    top = wma * (1 + perc)
+    bot = wma * (1 - perc)
+Returns: wma, top, bot
+Params: period (30), perc (2.5)
+
+Name: WeightedMovingAverageOscillator
+Alias: WeightedMovingAverageOsc, WMAOscillator, WMAOsc, MovingAverageWeightedOscillator, MovingAverageWeightedOsc
+Returns: wma
+Params: period (30)
+
+Name: WilliamsAD
+Alias: WilliamsAD
+Returns: ad
+Params: None
+
+Name: WilliamsR
+Alias: WilliamsR
+Formula:
+    num = highest_period - close
+    den = highestg_period - lowest_period
+    percR = (num / den) * -100.0
+Returns: percR
+Params: period (14), upperband (-20.0), lowerband (-80.0)
+
+Name: ZeroLagExponentialMovingAverage
+Alias: ZLEMA, ZeroLagEma
+Formula:
+    lag = (period - 1) / 2
+    zlema = ema(2 * data - data(-lag))
+Returns: zlema
+Params: period (30), _movav (EMA)
+
+Name: ZeroLagExponentialMovingAverageEnvelope
+Alias: ZLEMAEnvelope, ZeroLagEmaEnvelope
+Formula:
+    zlema (from ZeroLagExponentialMovingAverage)
+    top = zlema * (1 + perc)
+    bot = zlema * (1 - perc)
+Returns: zlema, top, bot
+Params: period (30), _movav (EMA), perc (2.5)
+
+Name: ZeroLagExponentialMovingAverageOscillator
+Alias: ZeroLagExponentialMovingAverageOsc, ZLEMAOscillator, ZLEMAOsc, ZeroLagEmaOscillator, ZeroLagEmaOsc
+Returns: zlema
+Params: period (30), _movav (EMA)
+
+Name: ZeroLagIndicator
+Alias: ZLIndicator, ZLInd, EC, ErrorCorrecting
+The default moving average is EMA, but can be changed with the parameter _movav, the passed moving average must calculate alpha (and 1 - alpha) and make them available as attributes alpha and alpha1 in the instance
+Formula:
+    EMA(data, period)
+Returns: ec
+Params: period (30), gainlimit (50), _movav (EMA)
+
+Name: ZeroLagIndicatorEnvelope
+Alias: ZLIndicatorEnvelope, ZLIndEnvelope, ECEnvelope, ErrorCorrectingEnvelope
+Formula:
+    ec (from ZeroLagIndicator)
+    top = ec * (1 + perc)
+    bot = ec * (1 - perc)
+Returns: ec, top, bot
+Params: period (30), gainlimit (50), _movav (EMA), perc (2.5)
+
+Name: ZeroLagIndicatorOscillator
+Alias: ZeroLagIndicatorOsc, ZLIndicatorOscillator, ZLIndicatorOsc, ZLIndOscillator, ZLIndOsc, ECOscillator, ECOsc, ErrorCorrectingOscillator, ErrorCorrectingOsc
+Returns: ec
+Params: period (30), gainlimit (50), _movav (EMA)
+
+Name: haDelta
+Alias: haD
+Formula:
+    haDelta = Heikin Ashi close - Heikin Ashi open
+    smoothed = movav(haDelta, period)
+Returns: haDelta, smoothed
+Params: period (3), movav (SMA), autoheikin (True)

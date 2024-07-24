@@ -1,0 +1,13 @@
+# docker-compose.yml
+services:
+  phoenix:
+    image: arizephoenix/phoenix:latest # Must be greater than 4.0 version to work
+    ports:
+      - 6006:6006  # PHOENIX_PORT
+    environment:
+      - PHOENIX_WORKING_DIR=/mnt/data
+    volumes:
+      - phoenix_data:/mnt/data   # PHOENIX_WORKING_DIR
+volumes:
+  phoenix_data:
+    driver: local

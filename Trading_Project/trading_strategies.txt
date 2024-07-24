@@ -1,0 +1,51 @@
+
+1. Simple Moving Average (SMA) Crossover: Buy when the 50-day SMA crosses above the 200-day SMA, sell when it crosses below.
+2. Exponential Moving Average (EMA) Crossover: Buy when the 50-day EMA crosses above the 200-day EMA, sell when it crosses below.
+3. Relative Strength Index (RSI): Buy when RSI is below 30 (oversold), sell when RSI is above 70 (overbought).
+4. Bollinger Bands: Buy when the price touches the lower Bollinger Band, sell when the price touches the upper Bollinger Band.
+5. Stochastic Oscillator: Buy when the %K line crosses above the %D line, sell when it crosses below.
+6. Parabolic SAR: Buy when the price crosses above the Parabolic SAR, sell when it crosses below.
+7. Moving Average Convergence Divergence (MACD): Buy when the MACD line crosses above the signal line, sell when it crosses below.
+8. On-Balance Volume (OBV): Buy when OBV is increasing, sell when it is decreasing.
+9. Money Flow Index (MFI): Buy when MFI is below 20, sell when it is above 80.
+10. Commodity Channel Index (CCI): Buy when CCI is below -100, sell when it is above 100.
+11. Accumulation/Distribution Line (A/D Line): Buy when the A/D line is rising, sell when it is falling.
+12. Average Directional Index (ADX): Buy when ADX is above 25 and +DI crosses above -DI, sell when +DI crosses below -DI.
+13. Fibonacci Retracement: Buy at the 38.2% retracement level, sell at the 61.8% retracement level.
+14. Volume Weighted Average Price (VWAP): Buy when the price is above the VWAP, sell when it is below.
+15. Chaikin Money Flow (CMF): Buy when CMF is above 0, sell when it is below 0.
+16. Williams %R: Buy when %R is below -80, sell when it is above -20.
+17. Keltner Channels: Buy when the price touches the lower Keltner Channel, sell when it touches the upper Keltner Channel.
+18. Donchian Channels: Buy when the price breaks above the 20-day Donchian Channel, sell when it breaks below.
+19. Aroon Indicator: Buy when Aroon Up crosses above Aroon Down, sell when Aroon Down crosses above Aroon Up.
+20. Elder Ray Index: Buy when the Bull Power is above the Bear Power, sell when Bear Power is above Bull Power.
+21. Coppock Curve: Buy when the Coppock Curve turns positive, sell when it turns negative.
+22. TRIX Indicator: Buy when the TRIX line crosses above the signal line, sell when it crosses below.
+23. Detrended Price Oscillator (DPO): Buy when DPO is above 0, sell when it is below 0.
+24. Qstick Indicator: Buy when Qstick is positive, sell when it is negative.
+25. Vortex Indicator: Buy when VI+ crosses above VI-, sell when VI- crosses above VI+.
+26. Ultimate Oscillator: Buy when the Ultimate Oscillator is below 30, sell when it is above 70.
+27. Price Rate of Change (ROC): Buy when ROC is above 0, sell when it is below 0.
+28. Know Sure Thing (KST): Buy when KST line crosses above the signal line, sell when it crosses below.
+29. Hull Moving Average (HMA): Buy when the price crosses above the HMA, sell when it crosses below.
+30. Zero-Lag EMA: Buy when the price crosses above the Zero-Lag EMA, sell when it crosses below.
+31. Adaptive Moving Average (AMA): Buy when the price crosses above the AMA, sell when it crosses below.
+32. Weighted Moving Average (WMA): Buy when the price crosses above the WMA, sell when it crosses below.
+33. TEMA (Triple Exponential Moving Average): Buy when the price crosses above the TEMA, sell when it crosses below.
+34. Double EMA (DEMA): Buy when the price crosses above the DEMA, sell when it crosses below.
+35. Fractal Indicator: Buy when a bullish fractal forms, sell when a bearish fractal forms.
+36. Gann HiLo Activator: Buy when the price crosses above the Gann HiLo Activator, sell when it crosses below.
+37. Heikin-Ashi Candles: Buy when a bullish Heikin-Ashi candle forms, sell when a bearish Heikin-Ashi candle forms.
+38. Kagi Chart: Buy when the Kagi line turns from red to green, sell when it turns from green to red.
+39. Renko Chart: Buy when a green Renko brick forms, sell when a red Renko brick forms.
+40. Line Break Chart: Buy when a new high line break forms, sell when a new low line break forms.
+41. Point and Figure Chart: Buy when an X column breaks above a previous X column, sell when an O column breaks below a previous O column.
+42. SuperTrend Indicator: Buy when the price crosses above the SuperTrend line, sell when it crosses below.
+43. ZigZag Indicator: Buy at the beginning of a new ZigZag uptrend, sell at the beginning of a new ZigZag downtrend.
+44. Chande Momentum Oscillator: Buy when the CMO crosses above zero, sell when it crosses below.
+45. Klinger Oscillator: Buy when the Klinger Oscillator crosses above the signal line, sell when it crosses below.
+46. Schaff Trend Cycle: Buy when the Schaff Trend Cycle crosses above the 25 level, sell when it crosses below the 75 level.
+47. Balance of Power (BOP): Buy when BOP is above 0, sell when it is below 0.
+48. DMI (Directional Movement Index): Buy when +DI crosses above -DI and ADX is above 20, sell when +DI crosses below -DI.
+49. Smoothed Rate of Change (S-ROC): Buy when the S-ROC crosses above the signal line, sell when it crosses below.
+50. MACD and RSI Combo: Buy when MACD line crosses above the signal line and RSI is below 30, sell when MACD line crosses below the signal line and RSI is above 70.
